@@ -26,8 +26,8 @@ namespace FileLockerProject
             _MI.Text = "Lock File";
             _MI.Click += delegate (object Sender, EventArgs args)
             {
-                _THIS.Show();
-                //(_NotifyIcon, _THIS);
+                _THIS.Lock();
+                _THIS.LockOn();
             };
         }
         private static void UnlockMWindowFromTray(System.Windows.Forms.MenuItem _MI, System.Windows.Forms.NotifyIcon _NotifyIcon, MainWindow _THIS) //Close Window after click by the "Close" item.
@@ -36,7 +36,7 @@ namespace FileLockerProject
             _MI.Text = "Unlock File";
             _MI.Click += delegate (object Sender, EventArgs args)
             {
-                _THIS.Close();
+                _THIS.Show();
             };
         }
 

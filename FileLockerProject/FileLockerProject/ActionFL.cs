@@ -8,11 +8,12 @@ namespace FileLockerProject
 {
     static class ActionFL
     {
-        private static int _CheckIndex = -1;
+        public static int _CheckIndex = -1;
         public static bool Control_NI = true;
         public static int _index = 0;
         public static bool _CheckOpen = true;
         public static List<string> _BufferList = new List<string>();
+        public static List <FileStream> _LFS = new List<FileStream>();
 
         public static void NotifyIcon(MainWindow _THIS, ref bool _NotifyIconCheck)
         {
@@ -65,12 +66,14 @@ namespace FileLockerProject
             {
                 while (true)
                 {
+                    if (_LFS.Count == 0)
+                        _CheckIndex = -1;
                     if (_CheckOpen && _CheckIndex != _index)
                     {
-                        _CheckIndex = _index;
-                        File.Open(_BufferList[_index], FileMode.Open);
+                       _CheckIndex = _index;
+                       _LFS.Add(File.Open(_BufferList[_index], FileMode.Open));
+                        _CheckOpen = false;
                     }
-                    _CheckOpen = false;
                 }
             }
         }
