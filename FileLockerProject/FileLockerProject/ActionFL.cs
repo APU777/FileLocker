@@ -2,7 +2,6 @@
 using System.Windows;
 using System.IO;
 using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace FileLockerProject
 {
@@ -37,7 +36,6 @@ namespace FileLockerProject
 
                     _NI.Visible = true;
                 }
-                //_NI.Text = "";
                 //WorkShopAction.NIDoubleClick(_NotifyIcon: _NI, _THIS: _THIS);
             }
         }

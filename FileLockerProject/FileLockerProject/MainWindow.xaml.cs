@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Runtime;
 
 namespace FileLockerProject
 {
@@ -10,17 +12,20 @@ namespace FileLockerProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _NotifyIconCheck = false;
-        private bool _CheckLock = true;
+        private bool _NotifyIconCheck = true;
         private Thread[] thread = new Thread[100];
         private int ThreadIndex = 0;
 
         public MainWindow()
         {
             InitializeComponent();
+            ActionFL.NotifyIcon(this, ref _NotifyIconCheck);
+            Hide();
+
+            RegistryWrite();
         }
 
-
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Lock()
         {
             System.Windows.Forms.OpenFileDialog OFD = new System.Windows.Forms.OpenFileDialog();
@@ -41,7 +46,7 @@ namespace FileLockerProject
                     ActionFL._CheckOpen = true;
                 }
             }
-        }
+        }/////////////////////////////////////////////////////////////////////////////////////
         public void LockOn()
         {
             try
@@ -52,7 +57,6 @@ namespace FileLockerProject
                 {
                     if (ActionFL._BufferList.Count > 0)
                     {
-                        MessageBox.Show(ActionFL._CheckOpen.ToString());
                         if (ActionFL._CheckOpen)
                         {
                             MessageBox.Show(ThreadIndex.ToString());
@@ -68,7 +72,25 @@ namespace FileLockerProject
             {
                 // MessageBox.Show(exc.Message);
             }
-        }
+        }//////////////////////////////////////////////////////////////////////////////////
+        public void RegistryWrite()
+        {
+            string RegKeyName = "MyApplication";
+            RegistryKey RK = Registry.CurrentUser;
+            RegistryKey DS = RK.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            try
+            {
+                MessageBox.Show(DS.GetValue(RegKeyName).ToString());
+            }
+            catch
+            {
+                DS.SetValue(RegKeyName, System.Windows.Forms.Application.ExecutablePath);
+                DS.Close();
+                RK.Close();
+            }
+           // DS.DeleteValue(RegKeyName);
+        }///////////////////////////////////////////////////////////////////////////
+         //////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -98,6 +120,12 @@ namespace FileLockerProject
             {
                 //MessageBox.Show(exc.Message);
             }
+        }
+
+        private void B_Hide_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            LockOn();
         }
     }
 }

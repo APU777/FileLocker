@@ -20,6 +20,7 @@ namespace FileLockerProject
             UnlockMWindowFromTray(_MI1, _NotifyIcon, _THIS);
             CloseMWindowFromTray(_MI2, _NotifyIcon, _THIS);//Close after click by "Close" item.
         }
+
         private static void LockMWindowFromTray(System.Windows.Forms.MenuItem _MI, System.Windows.Forms.NotifyIcon _NotifyIcon, MainWindow _THIS) //Show after click by the "Show" item.
         {
             _MI.Index = 0;
@@ -30,6 +31,7 @@ namespace FileLockerProject
                 _THIS.LockOn();
             };
         }
+
         private static void UnlockMWindowFromTray(System.Windows.Forms.MenuItem _MI, System.Windows.Forms.NotifyIcon _NotifyIcon, MainWindow _THIS) //Close Window after click by the "Close" item.
         {
             _MI.Index = 1;
@@ -49,7 +51,5 @@ namespace FileLockerProject
                 _THIS.Close();
             };
         }
-
-
     }
 }
